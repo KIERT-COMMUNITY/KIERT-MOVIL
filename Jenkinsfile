@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        FLUTTER_ROOT = 'C:\\flutter'
-        PATH = "${env.FLUTTER_ROOT}\\bin;${env.PATH}"
+        PATH = "C:\\Windows\\System32;C:\\Windows;C:\\Windows\\System32\\Wbem;C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\;C:\\flutter\\bin"
+        FLUTTER_ROOT = "C:\\flutter"
     }
 
     stages {
@@ -15,8 +15,8 @@ pipeline {
 
         stage('Setup Flutter') {
             steps {
-                bat '''
-                    echo "Verificando Flutter..."
+                powershell '''
+                    Write-Host "Verificando Flutter..."
                     flutter --version
                 '''
             }
@@ -24,13 +24,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'flutter pub get'
+                powershell 'flutter pub get'
             }
         }
 
         stage('Build APK') {
             steps {
-                bat 'flutter build apk --release --android-skip-build-dependency-validation'
+                powershell 'flutter build apk --release --android-skip-build-dependency-validation'
             }
             post {
                 success {
